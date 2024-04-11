@@ -5,30 +5,37 @@ class CosasRut:
         pass
     
     def validaRut(rut):#10.200.300-6
-        caracteres=".-"
-        for x in range(len(caracteres)):
-            rut=rut.replace(caracteres[x],"")#102003006
+        try:
+            rutschar = ''
+            caracteres="0123456789k"
+            for x in rut:
+                if x in caracteres:
+                    rutschar += x
+                elif x == 'K':
+                    rutschar += 'k'
 
-        rutsindigito=rut[:len(rut)-1]#10200300
-        rutinvertido=rutsindigito[::-1]#00300201
-        multi=2
-        sum=0
-        for i in range(0,len(rutinvertido)):
-            if multi > 7:
-                multi=2
-            sum+=int(rutinvertido[i])*multi
-            multi+=1
+            rutsindigito=rutschar[:len(rutschar)-1]#10200300
+            rutinvertido=rutsindigito[::-1]#00300201
+            multi=2
+            sum=0
+            for i in range(0,len(rutinvertido)):
+                if multi > 7:
+                    multi=2
+                sum+=int(rutinvertido[i])*multi
+                multi+=1
 
-        dv=11-(sum%11)
-        dvu=rut[-1:]
-        ##print('dvu:',dvu)
-        if dv==11:
-            dv=0
-        if dv==10:
-            dv="K"
-        if str(dv)==dvu:
-            return True
-        else:
+            dv=11-(sum%11)
+            dvu=rut[-1:]
+            ##print('dvu:',dvu)
+            if dv==11:
+                dv=0
+            if dv==10:
+                dv="K"
+            if str(dv)==dvu:
+                return True
+            else:
+                return False
+        except:
             return False
 
     def creaRut(self):
