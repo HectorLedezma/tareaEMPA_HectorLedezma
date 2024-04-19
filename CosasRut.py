@@ -100,20 +100,29 @@ class CosasRut:
                 break
         return rutDefinitivo
 
-    def corrigeRut(self,rut,similitud):
-        texto1 = rut
-        while True:
-            texto2 = self.creaRut(self,g1=int(texto1[:2]))
-            exactitud = 0
-            cont = 0
-            for i in range(min(len(texto1),len(texto2))):
-                if(texto1[i] == texto2[i]):
+    def corrigeRut(bueno,malo,similitud):
+        texto1 = bueno
+        texto2 = malo
+        exactitud = 0.0 #inicia con 0% de exactitud
+        cont = 0 #de momento hay 0 caracteres idénticos
+        #print('Bueno',bueno)
+        #print('Malo',malo)
+        #print(texto2)
+        EsNaN = texto2 == None
+        #print(EsNaN)
+        if not EsNaN:
+            #print('listo para comparar')
+            for i in range(min(len(texto1),len(texto2))): #se recorrerán los caracteres del el rut mas corto 
+                if(texto1[i] == texto2[i]):#se comparan y se cuentan los caracteres idénticos
                     cont += 1
-            exactitud = int(round((cont/max(len(texto1),len(texto2)))*100,0))
+            exactitud = round((cont/max(len(texto1),len(texto2)))*100,1)#se calcula el porcentaje de exactitud
             if exactitud >= similitud:
-                break
-                
-        return texto2
+                #print(malo,'-->',bueno,exactitud,exactitud >= similitud)
+                return True#si la exactitud es igual o mayor a lo esperado retorna 
+            else:
+                return False
+        else:
+            return False
     
     def limpiaRut(rut):
         newRut = ''
